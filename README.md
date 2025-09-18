@@ -68,6 +68,7 @@ class Customer extends BaseDto
      */
     public $addresses;
 }
+```
 
 ## Creating data classes from array
 ```php
