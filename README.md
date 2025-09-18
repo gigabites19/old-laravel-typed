@@ -10,4 +10,4 @@ Copy the 2 files anywhere in your project, adjust the namespace, read up on doc 
 # TODO
 
 - tests
-
+- examples
