@@ -25,7 +25,6 @@ class Address extends BaseDto
      */
      public $addressTwo;
 
-
     /**
      * @var string
      */
