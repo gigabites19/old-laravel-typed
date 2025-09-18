@@ -20,10 +20,16 @@ class Address extends BaseDto
      public $addressOne;
 
     /**
-     * @inputName address_two
+     * @inputName building_number
      * @var ?string
      */
-     public $addressTwo;
+     public $buildingNumber;
+
+    /**
+     * @rules required_with:building_number
+     * @var ?string
+     */
+     public $floor;
 
     /**
      * @var string
@@ -31,7 +37,7 @@ class Address extends BaseDto
      public $city;
 
     /**
-     * @rules regex:/+9955\d{8}/
+     * @rules regex:/\+9955\d{8}/
      * @var string
      */
      public $phone;
@@ -47,11 +53,10 @@ class Customer extends BaseDto
     public $fullName;
 
     /**
-     * @rules email:dns
+     * @rules email
      * @var string
      */
     public $email;
-
 
     /**
      * @var array<string>
@@ -80,13 +85,13 @@ Customer::create([
         ],
         [
             'address_one' => 'John Doe Street',
-            'address_two' => 'Apt. 37',
+            'building_number' => '32a',
+            'floor' => '3',
             'city' => 'Doetopia',
             'phone' => '+995500000000',
         ],
      ],
 ]);
-        
 ```
 
 # TODO
