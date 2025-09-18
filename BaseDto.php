@@ -88,6 +88,20 @@ abstract class BaseDto
     }
 
     /**
+     * @return array{'type':string,'isNullable':bool}
+     */
+    protected static function getPropertyType(ReflectionProperty $property): array
+    {
+        $value = static::getPropertyCommentTagValue($property, 'var');
+        $isNullable = $value[0] === '?';
+
+        return [
+            'type' =>  $isNullable ? substr($value, 1) : $value,
+            'isNullable' => $isNullable,
+        ];
+    }
+
+    /**
      * Get implicit rules for a type.
      *
      * Implicit rules are Laravel validation rules that are automatically applied to a property
@@ -170,12 +184,12 @@ abstract class BaseDto
         $propertyAttributes = $properties->map(function ($property): DtoPropertyAttributes {
             $inputName = static::getPropertyCommentTagValue($property, 'inputName') ?? $property->getName();
             $rules = static::getPropertyCommentTagValue($property, 'rules');
-            $type = static::getPropertyCommentTagValue($property, 'var');
+            ['type' => $type, 'isNullable' => $typeIsNullable] = static::getPropertyType($property);
 
             return DtoPropertyAttributes::create([
                     'name' => $property->getName(),
                     'inputName' => $inputName,
-                    'rules' => $rules . static::getImplicitRulesForType($type),
+                    'rules' => $rules . static::getImplicitRulesForType($typeIsNullable ? '?' . $type : $type),
                     'type' => $type,
                 ]);
         });
@@ -230,3 +244,4 @@ abstract class BaseDto
         return $instance;
     }
 }
+
