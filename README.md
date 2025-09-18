@@ -7,7 +7,89 @@ At my job we had to upgrade a legacy project (Laravel 5.8 and PHP 7.3) to new ve
 
 Copy the 2 files anywhere in your project, adjust the namespace, read up on doc comments in `BaseDto.php` file and you're good to go.
 
+# Examples
+
+## Example data classes
+```php
+class Address extends BaseDto
+{
+    /**
+     * @inputName address_one
+     * @var string
+     */
+     public $addressOne;
+
+    /**
+     * @inputName address_two
+     * @var ?string
+     */
+     public $addressTwo;
+
+
+    /**
+     * @var string
+     */
+     public $city;
+
+    /**
+     * @rules regex:/+9955\d{8}/
+     * @var string
+     */
+     public $phone;
+}
+
+class Customer extends BaseDto
+{
+    /**
+     * @rules max:255
+     * @inputName full_name
+     * @var string
+     */
+    public $fullName;
+
+    /**
+     * @rules email:dns
+     * @var string
+     */
+    public $email;
+
+
+    /**
+     * @var array<string>
+     */
+    public $groups;
+
+    /**
+     * @var Collection<\App\DTOs\Address>
+     */
+    public $addresses;
+}
+
+## Creating data classes from array
+```php
+Customer::create([
+    'full_name' => 'John Doe',
+    'email' => 'johndoe@example.com',
+    'groups' => [
+        'regular',
+     ],
+    'addresses' => [
+        [
+            'address_one' => 'John Doe Street',
+            'city' => 'Doetopia',
+            'phone' => '+995500000000',
+        ],
+        [
+            'address_one' => 'John Doe Street',
+            'address_two' => 'Apt. 37',
+            'city' => 'Doetopia',
+            'phone' => '+995500000000',
+        ],
+     ],
+]);
+        
+```
+
 # TODO
 
 - tests
-- examples
